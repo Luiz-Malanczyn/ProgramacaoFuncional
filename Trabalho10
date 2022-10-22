@@ -1,0 +1,84 @@
+;Luiz Eduardo Malanczyn de Oliveira
+
+; 1) 
+
+(println "")
+(println "1)")
+
+(println (format "Função assoc: Valor: %s; Resultado: %s"  "{:x 1 :y 5} :x 3" (str (assoc {:x 1 :y 5} :x 3))))
+(println (format "Função assoc: Valor: %s; Resultado: %s"  "{:x 2 :y 10} :z 2" (str (assoc {:x 2 :y 10} :z 2))))
+
+(println (format "Função dissoc: Valor: %s; Resultado: %s"  "{:x 1 :y 5} :y 5" (str (dissoc {:x 1 :y 5} :y 5))))
+(println (format "Função dissoc: Valor: %s; Resultado: %s"  "{:x 1 :y 13} :x 17" (str (dissoc {:x 1 :y 13} :x 17))))
+
+(println (format "Função range: Valor: %s; Resultado: %s"  "5 10" (str (range 5 10))))
+(println (format "Função range: Valor: %s; Resultado: %s"  "13" (str (range 13))))
+
+(println (format "Função map: Valor: %s; Resultado:"  " + [1 2 3] [3 2 1]") (map + [1 2 3] [3 2 1]))
+(println (format "Função map: Valor: %s; Resultado:"  " - [1 2 3] [3 2 1]") (map - [1 2 3] [3 2 1]))
+
+(println (format "Função inc: Valor: %s; Resultado: %s"  "1" (str (inc 1))))
+(println (format "Função inc: Valor: %s; Resultado: %s"  "10" (str (inc 10))))
+
+(println (format "Função filter: Valor: %s; Resultado:"  "par (range 10))")(filter even? (range 10)))
+(println (format "Função filter: Valor: %s; Resultado:"  "impar (range 10))")  (filter odd? (range 10)))
+
+(println (format "Função odd: Valor: %s; Resultado: %s"  "12" (str (odd? 1))))
+(println (format "Função odd: Valor: %s; Resultado: %s"  "13" (str (odd? 2))))
+
+(println (format "Função into: Valor: %s; Resultado: %s"  "[1 2 3] '(4)" (str (into [1 2 3] '(4)))))
+(println (format "Função into: Valor: %s; Resultado: %s"  "(3 2 1) '(5 4)" (str (into [3 2 1] '(5 4)))))
+
+(def pessoas ["Soto" "Gustavara" "Leonardo" "Luiz"])
+(println (format "Função nth: Valor: %s; Resultado: %s"  "carros 1" (nth pessoas 0)))
+(println (format "Função nth: Valor: %s; Resultado: %s"  "carros 3" (nth pessoas 2)))
+
+(println (format "Função conj: Valor: %s; Resultado: %s"  "[1 2 3] 4" (str (conj [1 2 3] 4))))
+(println (format "Função conj: Valor: %s; Resultado: %s"  "'(1 2 3) 5 4" (str (conj '(1 2 3) 5 4))))
+
+(println (format "Função sort: Valor: %s; Resultado: %s"  "[1 3 4 5 2]" (str (sort [1 3 4 5 2]))))
+(println (format "Função sort: Valor: %s; Resultado: %s"  " > [1 2 3 5 4]" (str (sort > [1 2 3 5 4]))))
+
+(println (format "Função partition-by: Valor: %s; Resultado: "  "odd? [1 1 2 2 2 3 3 3]") (partition-by odd? [1 1 2 2 3 3 3]))
+(println (format "Função partition-by: Valor: %s; Resultado: "  "even? [1 1 1 2 2 3]") (partition-by even? [1 1 1 2 2 3]))
+
+(println (format "Função empty: Valor: %s; Resultado: %s"  "empty? ()" (str (empty? ()))))
+(println (format "Função empty: Valor: %s; Resultado: %s"  "empty? '(1)" (str (empty? '(1)))))
+
+(println (format "Função count: Valor: %s; Resultado: %s"  "[1 2 3 4 5]" (str (count [1 2 3 4 5]))))
+(println (format "Função count: Valor: %s; Resultado: %s"  "[12 32 123]" (str (count [12 32 123]))))
+
+(println (format "Função char: Valor: %s; Resultado: "  "75") (char 75))
+(println (format "Função char: Valor: %s; Resultado: "  "103") (char 103))
+
+; 2) 
+
+(println "")
+(println "2)")
+
+(defn ehPrimo [x] (loop [c 1 l []](if (= c (+ x 1)) (if (= (count l) 2) true false)(recur (inc c) (if (zero? (mod x c)) (conj l c)l)))  
+))
+
+(println (format "Função ehPrimo: Valor: %s; Resultado: %s"  "13" (str (ehPrimo 13))))
+(println (format "Função ehPrimo: Valor: %s; Resultado: %s"  "12" (str (ehPrimo 12))))
+
+; 3) 
+
+(println "")
+(println "3)")
+
+(defn fatoresPrimos [x] (loop [c 2 xnum x l []](if (= xnum 1) l (recur (if (and (ehPrimo c) (zero? (mod xnum c))) 2 (inc c)) (if (and (ehPrimo c) (zero? (mod xnum c))) (/ xnum c) xnum) (if (and (ehPrimo c) (zero? (mod xnum c))) (conj l c) l))
+)))
+
+(println (format "Função fatoresPrimos: Valor: %s; Resultado:"  "13") (fatoresPrimos 13))
+(println (format "Função fatoresPrimos: Valor: %s; Resultado:"  "12") (fatoresPrimos 12))
+
+; 4) 
+
+(println "")
+(println "4)")
+
+(defn todosPrimos [x1 x2] (loop [l (range x1 (+ x2 1)) l2 []](if (empty? (rest l)) l2 (recur (rest l) (if (ehPrimo (nth l 0)) (conj l2 (nth l 0)) l2)))
+))
+
+(println (format "Função todosPrimos: Valor: %s; Resultado:"  "2 13") (todosPrimos 2 13))
